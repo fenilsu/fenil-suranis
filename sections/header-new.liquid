@@ -1,0 +1,118 @@
+<style>
+    .header-btn .main-btn{font-size:16px;line-height:20px;font-weight:400;color:#000;font-family: "Jost", sans-serif;text-transform: uppercase;padding:14px 23px 14px 55px;background-color:#FFF544;text-decoration: none;display:flex;align-items:center;position:relative;transition: 0.3s all ease-in-out;width: fit-content;overflow: hidden;margin:0;}
+    .header-btn .main-btn span{transition:0.3s all ease-in-out;}
+    .header-btn .main-btn:hover span{position:relative;color:#fff;}
+    .header-btn .main-btn::before{content:'';width:100%;height:100%;background-color:#000;position: absolute;left: -100%;transition:0.3s all ease-in-out;}
+    .header-btn .main-btn:hover::before{left:0;}
+    .header-btn .main-btn .btn-icon{margin-left:29px;transition:0.3s all ease-in-out;}
+    .header-btn .main-btn .btn-icon svg path{fill:#000000;}
+    .header-btn .main-btn:hover .btn-icon svg path{fill:#ffffff;}
+    .header-main-section{padding:10px 0;background-color:#f5f5f5;}
+    .header-main-section .header-new-warp{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1370px;padding:0 15px;margin:0 auto;}
+    .header-logo{line-height:0;}
+    .header-content-center p{margin:0;}
+    .header-menu{display:none;}
+    .header-content-center .main-btn{display:none;}
+    
+
+    @media (min-width:1921px){
+        .header-main-section .header-new-warp{max-width:1850px;}
+    }
+
+    @media (max-width:1024px){
+        .header-content-center{position: fixed;height: fit-content;background-color: #f2f2f2;width: 100%;z-index: -1;left: 0;top: -100%;padding: 25px 0;text-align: center;transition:0.4s all ease-in-out;opacity:0;visibility: hidden;}
+        .header-content-center.open-menu{top:64px;opacity:1;visibility:visible;}
+        .header-menu{display:block;line-height:0;}
+        .header-btn .main-btn{display:none;}
+        .header-content-center .main-btn{display:block;margin: 16px auto 0;}
+        .header-main-section{padding: 22px 0;box-shadow: 0px 2px 4px 0px #00000026;}
+        .header-btn .main-btn::before{top:0;}
+        .header-menu svg{height:20px;transition:0.3s all ease-in-out;}
+        .header-menu svg path{transition:0.3s all ease-in-out;}
+        .header-menu.active svg path:first-child{opacity:0;}
+        .header-menu.active svg path:nth-child(2){transform: rotate(45deg);transform-origin: 21% 50%;}
+        .header-menu.active svg path:last-child{transform: rotate(-45deg);transform-origin: 30% 50%;}
+        .hero-banner-main{position:relative;}
+        body.show-menu .content-for-layout{margin-top: 141px;}
+        .content-for-layout{transition:0.3s all ease-in-out;}
+    }
+</style>
+
+<div class="header-main-section">
+    <div class="header-new-warp">
+        <div class="header-menu">
+            <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 6H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1 1H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1 11H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="header-logo">
+            <img src="{{ section.settings.site_logo | image_url }}" alt="logo">
+        </div>
+        <div class="header-content-center">
+            <p>{{ section.settings.header_center_text }}</p>
+            <div class="header-btn">
+            <a class="main-btn" href="{{ section.settings.header_btn_url }}"><span class="btn-text">{{ section.settings.header_btn_text }}</span><span class="btn-icon">
+                <svg width="27" height="12" viewBox="0 0 27 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.75 4.77295L7.83954e-08 4.77295L-7.83954e-08 6.27295L0.75 6.27295L0.75 4.77295ZM26.7876 6.05328C27.0805 5.76039 27.0805 5.28551 26.7876 4.99262L22.0146 0.21965C21.7217 -0.0732435 21.2468 -0.0732435 20.9539 0.21965C20.6611 0.512543 20.6611 0.987417 20.9539 1.28031L25.1966 5.52295L20.9539 9.76559C20.6611 10.0585 20.6611 10.5334 20.9539 10.8263C21.2468 11.1191 21.7217 11.1191 22.0146 10.8263L26.7876 6.05328ZM0.75 6.27295L26.2572 6.27295L26.2572 4.77295L0.75 4.77295L0.75 6.27295Z" fill="white"/>
+                </svg>
+            </span></a>
+        </div>
+        </div>
+        <div class="header-btn">
+            <a class="main-btn" href="{{ section.settings.header_btn_url }}"><span class="btn-text">{{ section.settings.header_btn_text }}</span><span class="btn-icon">
+                <svg width="27" height="12" viewBox="0 0 27 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.75 4.77295L7.83954e-08 4.77295L-7.83954e-08 6.27295L0.75 6.27295L0.75 4.77295ZM26.7876 6.05328C27.0805 5.76039 27.0805 5.28551 26.7876 4.99262L22.0146 0.21965C21.7217 -0.0732435 21.2468 -0.0732435 20.9539 0.21965C20.6611 0.512543 20.6611 0.987417 20.9539 1.28031L25.1966 5.52295L20.9539 9.76559C20.6611 10.0585 20.6611 10.5334 20.9539 10.8263C21.2468 11.1191 21.7217 11.1191 22.0146 10.8263L26.7876 6.05328ZM0.75 6.27295L26.2572 6.27295L26.2572 4.77295L0.75 4.77295L0.75 6.27295Z" fill="white"/>
+                </svg>
+            </span></a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const headerMenu = document.querySelector(".header-menu");
+  const headerContent = document.querySelector(".header-content-center");
+  const body = document.body;
+
+  headerMenu.addEventListener("click", () => {
+    headerMenu.classList.toggle("active");
+    headerContent.classList.toggle("open-menu");
+    body.classList.toggle("show-menu");
+  });
+});
+</script>
+
+{% schema %}
+{
+    "name": "Header New",
+    "settings": [
+        {
+            "type": "image_picker",
+            "label": "Logo",
+            "id": "site_logo"
+        },
+        {
+            "type": "text",
+            "label": "Center text",
+            "id": "header_center_text"
+        },
+        {
+            "type": "text",
+            "label": "Header Button Text",
+            "id": "header_btn_text"
+        },
+        {
+            "type": "url",
+            "label": "Header Button Link",
+            "id": "header_btn_url"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Header New"
+        }
+    ]
+}
+{% endschema %}
