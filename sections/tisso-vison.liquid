@@ -1,0 +1,348 @@
+<style>
+.tisso-main-section{padding-top:80px;padding-bottom:50px;}
+.tisso-container{max-width:1370px;margin:0 auto;padding:0 15px;}
+.tisso-main-section h3{font-size:36px;line-height:1.2;color:#000000;font-weight:400;font-family: "Lustria", serif;letter-spacing: 0;margin: 0;margin-bottom: 30px;}
+.product-grid {display: grid;grid-template-columns: repeat(3, 1fr);gap: 20px;}
+.image-wrap {position: relative;line-height:0;}
+.image-wrap img {width: 100%;aspect-ratio: 1 / 1;object-fit: cover;}
+.hotspot-dot {position: absolute;width: 22px;height: 22px;background: rgba(248, 248, 248, 0.9);color: #000000;border-radius: 50%;text-align: center;line-height: 22px;cursor: pointer;transform: translate(-50%, -50%);font-weight: bold;}
+
+/* Popup */
+.popup {display: none;position: fixed;top: 0; left: 0;width: 100%; height: 100%;background: rgba(0,0,0,0.6);z-index: 99;}
+.popup-content {background: #fff;padding: 36px 20px 20px;max-width: 311px;margin: 50px auto;text-align: center;position: relative;box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);}
+.popup-content img {width: 100%;}
+.view-btn {display: inline-block;margin-top: 10px;padding: 10px 15px;background: black;color: #fff;text-decoration: none;}
+.close {cursor: pointer;float: right;font-size: 30px;line-height: 1;position: absolute;top: 12px;right: 15px;font-weight: 500;}
+.variant-group {margin: 15px 0;}
+.color-swatch {display: inline-block;padding: 10px 20px;border: 1px solid #000;cursor: pointer;margin-right: 5px;}
+.color-swatch.active {background: #000;color: #fff;}
+#size-select {width: 100%;padding: 10px;border: 1px solid #000;}
+.variant-group {margin: 15px 0;}
+#color-select {width: 100%;padding: 10px;border: 1px solid #000;}
+.size-btn {display: inline-block;padding: 10px 18px;border: 1px solid #000;cursor: pointer;width: 50%; position:relative;z-index:1;background-color: transparent;}
+.size-btn.active {color: #fff;} 
+.color-main{position:relative;overflow: hidden;display:flex;}
+.color-main::before{content:'';width:50%;left:-50%;height:100%;background-color:#000000;position:absolute;transition: 0.3s all ease-in-out;}
+.color-main:has(.size-btn:first-child.active)::before {left: 0;}
+.color-main:has(.size-btn:last-child.active)::before {left: 50%;}
+.size-btn::before {content: '';width:6px;height: 100%;position: absolute;left: 0;top: 50%;transform: translateY(-50%);background-color:#fff;border-right: 1px solid #000;}
+.size-btn.white::before{background-color:#fff;}
+.size-btn.black::before{background-color:#000000;}
+.size-btn.blue::before{background-color:blue;}
+.size-btn.red::before{background-color:red;}
+.size-btn.grey::before{background-color:grey;}
+.quick-image-des{display:flex;}
+.quick-image-des .quick-produt-image{width:120px;flex-shrink: 0;}
+.quick-image-des .quick-produt-image img{width:100%;height:100%;object-fit:cover;}
+.quick-produt-content{padding-left:8px;flex-grow:1;}
+.quick-produt-content h3{margin-top:13px;font-size:16px;line-height:1.2;color:#000000;font-weight:300;font-family: "Jost", sans-serif;letter-spacing: 0;margin-bottom:20px;text-align:left;}
+.quick-produt-content h5{color:#000000;font-weight:400;letter-spacing: 0;font-family: "Lustria", serif;font-size:16px;line-height:1.2;text-align:left;margin:0;}
+.quick-produt-content p{color:#000000;font-weight:300;letter-spacing: -0.01em;font-family: "Jost", sans-serif;font-size:14px;line-height:1.1;text-align:left;margin-top: 12px;margin-bottom: 0;}
+.popup-content .variant-group{margin-top:10px;margin-bottom:10px;}
+.popup-content .variant-group label{display: block;text-align: left;font-size: 14px;line-height: 1.3;color: #333333;font-weight: 400;letter-spacing: 0;font-family: "Jost", sans-serif;margin-bottom:6px;}
+
+.popup-content .main-btn{font-size:16px;line-height:20px;font-weight:400;color:#fff;font-family: "Jost", sans-serif;text-transform: uppercase;padding:14px 23px 14px 55px;background-color:#000000;text-decoration: none;margin-top:50px;display:flex;align-items:center;position:relative;transition: 0.3s all ease-in-out;width: fit-content;overflow: hidden;border:none;width:100%;justify-content: center;cursor:pointer;margin-bottom:0;}
+.popup-content .main-btn span{transition:0.3s all ease-in-out;}
+.popup-content .main-btn:hover span{position:relative;color:#000000;}
+.popup-content .main-btn::before{content:'';width:100%;height:100%;background-color:#FFF544;position: absolute;left: -100%;transition:0.3s all ease-in-out;cursor:pointer;}
+.popup-content .main-btn:hover::before{left:0;}
+.popup-content .main-btn .btn-icon{margin-left:29px;transition:0.3s all ease-in-out;}
+.popup-content .main-btn:hover .btn-icon svg path{fill:#000000;}
+.popup-content .variant-group select{background-image:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iOSIgdmlld0JveD0iMCAwIDE1IDkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xLjA2MDY3IDEuMDYwNjdMNy4wNjA2NyA3LjA2MDY3TDEzLjA2MDcgMS4wNjA2NyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJzcXVhcmUiLz4KPC9zdmc+Cg==");background-position: right 21px center;background-repeat: no-repeat; -webkit-appearance: none;-moz-appearance: none;appearance: none;}
+.popup-content .variant-group select:focus{outline:none;box-shadow:none;}
+.popup-content .variant-group .qu-select{position:relative;}
+.popup-content .variant-group .qu-select::after{content:'';width:1px;background-color:#000;height:100%;position:absolute;right:56px;}
+
+@media (min-width:1921px){
+  .tisso-container{max-width:1850px;}
+}
+
+@media (max-width:767px){
+  .product-grid{grid-template-columns: repeat(2, 1fr);gap: 4px;}
+  .hotspot-dot{width:17px;height:17px;line-height:17px;}
+  .tisso-main-section h3{font-size:24px;text-align:center;}
+  .tisso-main-section{padding-top:40px;padding-bottom:24px;}
+  .popup-content .main-btn{margin-top: 20px;}
+}
+</style>
+
+
+<div class="tisso-main-section">
+  <div class="tisso-container">
+      <h3>Tisso vison in the wild</h3>
+      <div class="product-grid">
+        {% for block in section.blocks %}
+          {% assign product = block.settings.product %}
+          {% if product != blank %}
+            <div class="product-card">
+              <div class="image-wrap">
+                <img 
+                  src="{{ product.featured_image | image_url: width: 500 }}" 
+                  alt="{{ product.title }}"
+                >
+                <!-- Dot (per product position) -->
+                <div 
+                  class="hotspot-dot"
+                  style="top: {{ block.settings.dot_top }}%; left: {{ block.settings.dot_left }}%;"
+                  data-title="{{ product.title }}"
+                  data-price="{{ product.price| money }}"
+                  data-info="{{ product.description | strip_html | escape }}"
+                  data-image="{{ product.featured_image | image_url: width: 500 }}"
+                  data-url="{{ product.url }}"
+                  data-variants='{{ product.variants | json }}'
+                  data-options='{{ product.options_with_values | json }}'
+                >
+                  +
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+        {% endfor %}
+      </div>
+  </div>
+</div>
+
+
+<!-- Popup -->
+<div id="quick-popup" class="popup">
+  <div class="popup-content">
+    <span class="close">&times;</span>
+    <div class="quick-image-des">
+      <div class="quick-produt-image">
+            <img id="popup-img">
+      </div>
+      <div class="quick-produt-content">
+          <h3 id="popup-title"></h3>
+          <h5 id="popup-price"></h5>
+          <p id="popup-info"></p>
+      </div>
+    </div>
+
+    <!-- Color Buttons -->
+    <div class="variant-group">
+      <label>Color</label>
+      <div id="color-options" class="color-main">
+        {% for option in product.options_with_values %}
+            {% if option.name == 'Color' %}
+              {% for value in option.values %}
+                {% assign color_handle = value | downcase | handle %}
+                <button  class="size-btn {{ color_handle }}">
+                  {{ value }}
+                </button>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+
+    <!-- Size dropdown -->
+    {% assign size_option = product.options_with_values | where: "name", "Size" | first %}
+    <div class="variant-group">
+      <label>Size</label>
+      <div class="qu-select">
+        <select id="size-select">
+        <option value="">Choose your size</option>
+        {% if size_option %}
+          {% for value in size_option.values %}
+            <option value="{{ value }}">
+              {{ value }}
+            </option>
+          {% endfor %}
+        {% endif %}
+      </select>
+      </div>
+    </div>
+    
+    <!--cart btn -->
+    <button id="add-to-cart-btn" class="cart-btn main-btn">
+      <span class="btn-text">Add to Cart</span>
+      <span class="btn-icon">
+        <svg width="27" height="12" viewBox="0 0 27 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.75 4.77295L7.83954e-08 4.77295L-7.83954e-08 6.27295L0.75 6.27295L0.75 4.77295ZM26.7876 6.05328C27.0805 5.76039 27.0805 5.28551 26.7876 4.99262L22.0146 0.21965C21.7217 -0.0732435 21.2468 -0.0732435 20.9539 0.21965C20.6611 0.512543 20.6611 0.987417 20.9539 1.28031L25.1966 5.52295L20.9539 9.76559C20.6611 10.0585 20.6611 10.5334 20.9539 10.8263C21.2468 11.1191 21.7217 11.1191 22.0146 10.8263L26.7876 6.05328ZM0.75 6.27295L26.2572 6.27295L26.2572 4.77295L0.75 4.77295L0.75 6.27295Z" fill="white"/>
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  const dots = document.querySelectorAll('.hotspot-dot');
+  const popup = document.getElementById('quick-popup');
+  const popupImg = document.getElementById('popup-img');
+  const popupTitle = document.getElementById('popup-title');
+  const popupPrice = document.getElementById('popup-price');
+  const popupInfo = document.getElementById('popup-info');
+
+  const addToCartBtn = document.getElementById('add-to-cart-btn');
+  const closeBtn = document.querySelector('.close');
+
+  const state = {
+    selectedColor: null,
+    selectedSize: null,
+    selectedVariantId: null,
+    allVariants: []
+  };
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', function () {
+
+      state.allVariants = JSON.parse(this.dataset.variants);
+      const options = JSON.parse(this.dataset.options);
+
+      popup.style.display = 'block';
+      popupImg.src = this.dataset.image;
+      popupTitle.innerText = this.dataset.title;
+      popupPrice.innerText = this.dataset.price;
+      popupInfo.innerHTML = this.dataset.info;
+
+      state.selectedColor = null;
+      state.selectedSize = null;
+      state.selectedVariantId = null;
+
+      // ===== BUILD COLOR BUTTONS DYNAMICALLY =====
+      const colorContainer = document.getElementById('color-options');
+      colorContainer.innerHTML = '';
+
+      const colorOption = options.find(o => o.name === 'Color');
+      if (colorOption) {
+        colorOption.values.forEach(value => {
+          const btn = document.createElement('button');
+          const colorHandle = value.toLowerCase().replace(/\s+/g, '-');
+          btn.className = 'size-btn ' + colorHandle;
+          btn.innerText = value;
+          btn.onclick = function () {
+            colorContainer.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            state.selectedColor = this.innerText.trim().toLowerCase();
+            updateVariant();
+          };
+          colorContainer.appendChild(btn);
+        });
+      }
+
+      // ===== BUILD SIZE OPTIONS DYNAMICALLY =====
+      const sizeSelect = document.getElementById('size-select');
+      sizeSelect.innerHTML = '<option value="">Choose your size</option>';
+
+      const sizeOption = options.find(o => o.name === 'Size');
+      if (sizeOption) {
+        sizeOption.values.forEach(value => {
+          const opt = document.createElement('option');
+          opt.value = value;
+          opt.innerText = value;
+          sizeSelect.appendChild(opt);
+        });
+      }
+
+      sizeSelect.onchange = function () {
+        state.selectedSize = this.value.trim().toLowerCase();
+        updateVariant();
+      };
+
+      // ===== VARIANT MATCHING =====
+      function updateVariant() {
+        console.log("Selected Color:", state.selectedColor, "| Selected Size:", state.selectedSize);
+
+        const found = state.allVariants.find(v =>
+          v.option1 && v.option2 &&
+          v.option1.trim().toLowerCase() === state.selectedSize &&
+          v.option2.trim().toLowerCase() === state.selectedColor
+        );
+
+        if (found) {
+          state.selectedVariantId = found.id;
+          console.log("✅ Variant Found:", state.selectedVariantId);
+        } else {
+          state.selectedVariantId = null;
+          console.log("❌ No match");
+        }
+      }
+
+    });
+  });
+
+  // ===== ADD TO CART =====
+  addToCartBtn.addEventListener('click', function () {
+
+    console.log("FINAL:", state.selectedColor, state.selectedSize, state.selectedVariantId);
+
+    if (!state.selectedVariantId) {
+      alert('Please select color & size');
+      return;
+    }
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: state.selectedVariantId,
+        quantity: 1
+      })
+    })
+    .then(res => res.json())
+    .then(() => {
+      window.location.href = '/cart';
+    });
+
+  });
+
+  // CLOSE POPUP
+  closeBtn.onclick = () => popup.style.display = 'none';
+
+});
+
+document.querySelectorAll('#color-options .size-btn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('#color-options .size-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Tisso Product",
+   "blocks": [
+    {
+      "type": "product",
+      "name": "Product with Hotspot",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select product"
+        },
+        {
+          "type": "range",
+          "id": "dot_top",
+          "label": "Dot Vertical Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "dot_left",
+          "label": "Dot Horizontal Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Tisso Product"
+    }
+  ]
+}
+{% endschema %}
